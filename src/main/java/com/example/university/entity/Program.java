@@ -1,6 +1,6 @@
-package com.example.university.Entity;
+package com.example.university.entity;
 
-import com.example.university.Enums.Degree;
+import com.example.university.enums.Degree;
 
 import javax.persistence.*;
 

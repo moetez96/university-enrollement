@@ -1,4 +1,4 @@
-package com.example.university.Entity;
+package com.example.university.entity;
 
 import javax.persistence.*;
 

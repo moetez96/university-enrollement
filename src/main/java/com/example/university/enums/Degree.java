@@ -1,4 +1,4 @@
-package com.example.university.Enums;
+package com.example.university.enums;
 
 public enum Degree {
     ASSOCIATE,
