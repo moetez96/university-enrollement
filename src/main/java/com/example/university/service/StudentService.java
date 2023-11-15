@@ -27,9 +27,10 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
-    //TODO: Complete add student method
+    //TODO: Add student to program
     public void addStudent(String firstName, String lastName, String email, LocalDate dateOfBirth, Program program){
-
+        Student student = new Student(firstName, lastName, email, dateOfBirth);
+        studentRepository.save(student);
     }
 
     public Optional<Student> findStudentById(long id) {
