@@ -18,9 +18,8 @@ public class StudentService {
     @Autowired
     private StudentRepository studentRepository;
 
-    //TODO: Get student by email
     public Optional<Student> findStudentByEmail(String email) {
-        return Optional.empty();
+        return this.studentRepository.findByEmail(email);
     }
 
     public List<Student> getAllRegisteredStudents() {
