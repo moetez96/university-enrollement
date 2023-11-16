@@ -41,6 +41,6 @@ public class LoginController {
             return "login";
         }
 
-        return "redirect:/";
+        return "redirect:student?student_id=" + student.get().getId();
     }
 }
