@@ -1,8 +1,6 @@
 package com.example.university.controller;
 
 import com.example.university.entity.Student;
-import com.example.university.repository.CourseRepository;
-import com.example.university.repository.StudentRepository;
 import com.example.university.service.CoursesService;
 import com.example.university.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
