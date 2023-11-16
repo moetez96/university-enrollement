@@ -13,9 +13,7 @@ public class LearnerProfileService {
     @Autowired
     private LearnerProfileRepository learnerProfileRepository;
 
-    //TODO: Returns all the active students' learner profiles in the database,
-    //     * sorted by their GPA in descending order
     public List<LearnerProfile> getActiveStudentProfilesOrderedByGpa(){
-        return List.of();
+        return this.learnerProfileRepository.findAllByIsGraduatedIsFalseOrderByGpaDesc();
     }
 }

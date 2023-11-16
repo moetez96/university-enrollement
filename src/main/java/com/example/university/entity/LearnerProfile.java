@@ -9,12 +9,12 @@ public class LearnerProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long profileId;
-
     private int numberOfCredits;
-
     private float gpa;
     private boolean isGraduated;
     private short startYear;
+    @OneToOne(mappedBy = "learnerProfile")
+    private Student student;
 
     public LearnerProfile() {
     }
@@ -41,5 +41,9 @@ public class LearnerProfile {
 
     public short getStartYear() {
         return startYear;
+    }
+
+    public Student getStudent() {
+        return student;
     }
 }
