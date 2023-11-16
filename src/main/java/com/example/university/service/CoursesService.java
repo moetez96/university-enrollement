@@ -12,8 +12,11 @@ import java.util.Optional;
 @Service
 public class CoursesService {
 
-    @Autowired
-    private CourseRepository courseRepository;
+    private final CourseRepository courseRepository;
+
+    public CoursesService(CourseRepository courseRepository) {
+        this.courseRepository = courseRepository;
+    }
 
     public List<Course> getAllCourses(){
         return this.courseRepository.findAll();

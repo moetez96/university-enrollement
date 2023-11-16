@@ -14,8 +14,11 @@ import java.util.Optional;
 @Controller
 public class LoginController {
 
-    @Autowired
-    private StudentService studentService;
+    private final StudentService studentService;
+
+    public LoginController(StudentService studentService) {
+        this.studentService = studentService;
+    }
 
     @GetMapping("/login")
     public String login() {

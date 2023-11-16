@@ -10,8 +10,11 @@ import java.util.List;
 @Service
 public class LearnerProfileService {
 
-    @Autowired
-    private LearnerProfileRepository learnerProfileRepository;
+    private final LearnerProfileRepository learnerProfileRepository;
+
+    public LearnerProfileService(LearnerProfileRepository learnerProfileRepository) {
+        this.learnerProfileRepository = learnerProfileRepository;
+    }
 
     public List<LearnerProfile> getActiveStudentProfilesOrderedByGpa(){
         return this.learnerProfileRepository.findAllByIsGraduatedIsFalseOrderByGpaDesc();

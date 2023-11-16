@@ -17,11 +17,14 @@ import java.util.Optional;
 @Controller
 public class StudentController {
 
-    @Autowired
-    private StudentService studentService;
+    private final StudentService studentService;
+    private final CoursesService coursesService;
 
-    @Autowired
-    private CoursesService coursesService;
+    public StudentController(StudentService studentService,
+                              CoursesService coursesService) {
+        this.studentService = studentService;
+        this.coursesService = coursesService;
+    }
 
     @RequestMapping("/student")
     public String getStudentProfile(@RequestParam("student_id") long studentId, Model model) {

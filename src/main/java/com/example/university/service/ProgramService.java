@@ -13,8 +13,11 @@ import java.util.Optional;
 @Service
 public class ProgramService {
 
-    @Autowired
-    private ProgramRepository programRepository;
+    private final ProgramRepository programRepository;
+
+    public ProgramService(ProgramRepository programRepository) {
+        this.programRepository = programRepository;
+    }
 
     public Program getOrCreateProgram(String fieldOfStudy, Degree degree) {
 

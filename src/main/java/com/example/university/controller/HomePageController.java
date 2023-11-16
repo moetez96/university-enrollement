@@ -18,14 +18,21 @@ import java.util.List;
 @Controller
 public class HomePageController {
 
-    @Autowired
-    private LearnerProfileService learnerProfileService;
-    @Autowired
-    private StudentService studentService;
-    @Autowired
-    private ProgramService programService;
-    @Autowired
-    private CoursesService coursesService;
+    private final LearnerProfileService learnerProfileService;
+    private final StudentService studentService;
+    private final ProgramService programService;
+    private final CoursesService coursesService;
+
+    public HomePageController(LearnerProfileService learnerProfileService,
+                              StudentService studentService,
+                              ProgramService programService,
+                              CoursesService coursesService) {
+
+        this.learnerProfileService = learnerProfileService;
+        this.studentService = studentService;
+        this.programService = programService;
+        this.coursesService = coursesService;
+    }
 
     @GetMapping("/courses")
     public String getNumberOfStudentPerCourse(Model model) {

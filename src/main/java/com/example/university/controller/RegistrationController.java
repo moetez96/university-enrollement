@@ -19,18 +19,19 @@ import java.util.Locale;
 @Controller
 public class RegistrationController {
 
-    @Autowired
-    private StudentService studentService;
+    private final StudentService studentService;
+    private final ProgramService programService;
 
-    @Autowired
-    private ProgramService programService;
+    public RegistrationController(StudentService studentService, ProgramService programService) {
+        this.studentService = studentService;
+        this.programService = programService;
+    }
 
     @GetMapping("/registration")
     public String registration() {
         return "registration";
     }
 
-    //TODO: Complete the SignUp method
     @GetMapping("register")
     public String signUpNewStudent(@RequestParam("firstName") String firstName,
                                    @RequestParam("lastName") String lastName,
