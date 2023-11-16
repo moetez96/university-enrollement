@@ -15,17 +15,11 @@ public class ProgramService {
     @Autowired
     private ProgramRepository programRepository;
 
-    /*TODO: Returns the Program object by field of study and degree from the database if it exists
-            or creates a new object */
     public Program getOrCreateProgram(String fieldOfStudy, Degree degree) {
 
-        Optional<Program> program = Optional.empty(); // placeholder
+        Optional<Program> program = programRepository.findByFieldOfStudyAndDegree(fieldOfStudy, degree);
 
-        if (program.isPresent()) {
-            return program.get();
-        }
-
-        return new Program(fieldOfStudy, degree);
+        return program.orElseGet(() -> new Program(fieldOfStudy, degree));
     }
 
     public List<Program> getAllProgramsWithStudents() {

@@ -26,9 +26,8 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
-    //TODO: Add student to program
-    public void addStudent(String firstName, String lastName, String email, LocalDate dateOfBirth, Program program){
-        Student student = new Student(firstName, lastName, email, dateOfBirth);
+    public void addStudent(String firstName, String lastName, String email, LocalDate dateOfBirth, Program program) {
+        Student student = new Student(firstName, lastName, email, dateOfBirth, program);
         studentRepository.save(student);
     }
 

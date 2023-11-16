@@ -11,9 +11,13 @@ public class Program {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long programId;
+    @Column(nullable = false)
     private int requiredYearsToGraduation;
+    @Column(nullable = false)
     private int requiredCreditsToGraduation;
+    @Column(nullable = false, updatable = false)
     private String fieldOfStudy;
+    @Enumerated(EnumType.STRING)
     private Degree degree;
 
     public Program() {
