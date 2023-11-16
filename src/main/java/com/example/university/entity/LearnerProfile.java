@@ -11,6 +11,8 @@ public class LearnerProfile {
     private Long profileId;
     private int numberOfCredits;
     private float gpa;
+
+    @Column(name = "is_graduated")
     private boolean isGraduated;
     private short startYear;
     @OneToOne(mappedBy = "learnerProfile")
@@ -35,7 +37,7 @@ public class LearnerProfile {
         return gpa;
     }
 
-    public boolean isGraduated() {
+    public boolean isIsGraduated() {
         return isGraduated;
     }
 
