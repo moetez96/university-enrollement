@@ -51,4 +51,8 @@ public class Program {
     public Degree getDegree() {
         return degree;
     }
+
+    public List<Student> getStudents() {
+        return students;
+    }
 }
