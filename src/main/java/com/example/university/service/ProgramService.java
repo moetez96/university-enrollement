@@ -4,6 +4,7 @@ import com.example.university.entity.Program;
 import com.example.university.enums.Degree;
 import com.example.university.repository.ProgramRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class ProgramService {
     }
 
     public List<Program> getAllProgramsWithStudents() {
-        return programRepository.findAll();
+        Sort sortOrder = Sort.by("fieldOfStudy").ascending().and(Sort.by("degree").descending());
+        return programRepository.findAll(sortOrder);
     }
 }

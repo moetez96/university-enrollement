@@ -1,6 +1,7 @@
 DELETE FROM COURSES;
 DELETE FROM STUDENTS;
 DELETE FROM LEARNER_PROFILES;
+DELETE FROM PROGRAMS;
 
 INSERT INTO COURSES (title, description, number_of_credits) VALUES ('Computer Science 101', 'Introduction to the Field Of Computers and Programming', 3);
 INSERT INTO COURSES (title, description, number_of_credits) VALUES ('Algorithms and Data Structures', 'Advanced theoretical course on how to write efficient programs', 5);
@@ -20,3 +21,12 @@ INSERT INTO STUDENTS (first_name, last_name, email, date_of_birth, profile_id) V
 
 INSERT INTO LEARNER_PROFILES (number_of_credits, gpa, is_graduated, start_year) VALUES (87, 74.5, 'TRUE', 2019);
 INSERT INTO STUDENTS (first_name, last_name, email, date_of_birth, profile_id) VALUES ('Daniel', 'Lee', 'daniel.lee@yahoo.com', '1999-04-05', 4);
+
+INSERT INTO PROGRAMS (required_years_to_graduation, required_credits_to_graduation, field_of_study, degree) VALUES (4, 200, 'Computer Science', 'BACHELOR');
+INSERT INTO PROGRAMS (required_years_to_graduation, required_credits_to_graduation, field_of_study, degree) VALUES (4, 200, 'Computer Science', 'MASTER');
+INSERT INTO PROGRAMS (required_years_to_graduation, required_credits_to_graduation, field_of_study, degree) VALUES (4, 200, 'Electrical Engineering', 'PHD');
+
+UPDATE STUDENTS SET program_id = 1 WHERE first_name = 'John';
+UPDATE STUDENTS SET program_id = 1 WHERE first_name = 'Mary';
+UPDATE STUDENTS SET program_id = 2 WHERE first_name = 'Dianna';
+UPDATE STUDENTS SET program_id = 3 WHERE first_name = 'Daniel';

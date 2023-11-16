@@ -3,6 +3,8 @@ package com.example.university.entity;
 import com.example.university.enums.Degree;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Programs")
@@ -19,6 +21,8 @@ public class Program {
     private String fieldOfStudy;
     @Enumerated(EnumType.STRING)
     private Degree degree;
+    @OneToMany(mappedBy = "program")
+    private final List<Student> students = new ArrayList<>();
 
     public Program() {
     }
