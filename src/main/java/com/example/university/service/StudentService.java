@@ -36,6 +36,6 @@ public class StudentService {
     }
 
     public Set<Course> getAllStudentCourses(Student student) {
-        return Set.of();
+        return student.getEnrolledIn();
     }
 }

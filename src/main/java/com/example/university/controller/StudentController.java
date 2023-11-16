@@ -6,6 +6,7 @@ import com.example.university.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -36,6 +37,26 @@ public class StudentController {
 
         return "student_view";
     }
+
+    @GetMapping("/student/courses")
+    public String getAllCourses(@RequestParam("student_id") long studentId, Model model) {
+
+        Optional<Student> student = this.studentService.findStudentById(studentId);
+        if (student.isEmpty()) {
+            System.err.printf("Student with Id %d doesn't exist%n", studentId);
+            return "redirect:/";
+        }
+
+        model.addAttribute("student_id", studentId);
+        model.addAttribute("all_courses", this.coursesService.getAllCourses());
+        model.addAttribute("student_courses",
+                this.studentService.getAllStudentCourses(student.get()));
+        showAllCourses(model);
+
+        return "student_view";
+    }
+
+
 
     private void showStudentProfile(Model model) {
         model.addAttribute("show_courses", false);

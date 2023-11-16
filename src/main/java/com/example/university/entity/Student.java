@@ -2,6 +2,7 @@ package com.example.university.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(name = "Students")
@@ -23,6 +24,8 @@ public class Student {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "program_id")
     private Program program;
+    @ManyToMany(mappedBy = "enrolledStudents", cascade = CascadeType.ALL)
+    private Set<Course> enrolledIn;
 
 
     public Student() {
@@ -67,6 +70,10 @@ public class Student {
 
     public Program getProgram() {
         return program;
+    }
+
+    public Set<Course> getEnrolledIn() {
+        return enrolledIn;
     }
 
 }

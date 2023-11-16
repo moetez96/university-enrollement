@@ -23,9 +23,9 @@ public class CoursesService {
         return this.courseRepository.findById(courseId);
     }
 
-    //TODO: Enrolls a student in a course
     public void enrollStudent(Course course, Student student){
-
+        course.addEnrolledStudent(student);
+        this.courseRepository.save(course);
     }
 
     //TODO: Enrolls a student in a course

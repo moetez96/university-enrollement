@@ -1,6 +1,7 @@
 package com.example.university.entity;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "Courses")
@@ -9,10 +10,13 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long courseId;
-
     private String title;
     private String description;
     private int numberOfCredits;
+    @ManyToMany
+    @JoinTable(name = "COURSE_ENROLLMENTS", joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "enrolled_student_id", referencedColumnName = "id"))
+    private Set<Student> enrolledStudents;
 
     public Course() {
     }
@@ -38,4 +42,13 @@ public class Course {
     public String getDescription() {
         return description;
     }
+
+    public Set<Student> getEnrolledStudents() {
+        return enrolledStudents;
+    }
+
+    public void addEnrolledStudent(Student student) {
+        enrolledStudents.add(student);
+    }
 }
+
