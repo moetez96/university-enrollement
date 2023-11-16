@@ -28,8 +28,10 @@ public class CoursesService {
         this.courseRepository.save(course);
     }
 
-    //TODO: Enrolls a student in a course
     public void unEnrollStudent(Course course, Student student) {
-
+        if (course.getEnrolledStudents().contains(student)) {
+            course.removeEnrolledStudent(student);
+            this.courseRepository.save(course);
+        }
     }
 }

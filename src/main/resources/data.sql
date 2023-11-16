@@ -2,6 +2,7 @@ DELETE FROM COURSES;
 DELETE FROM STUDENTS;
 DELETE FROM LEARNER_PROFILES;
 DELETE FROM PROGRAMS;
+DELETE FROM COURSE_ENROLLMENTS;
 
 INSERT INTO COURSES (title, description, number_of_credits) VALUES ('Computer Science 101', 'Introduction to the Field Of Computers and Programming', 3);
 INSERT INTO COURSES (title, description, number_of_credits) VALUES ('Algorithms and Data Structures', 'Advanced theoretical course on how to write efficient programs', 5);
@@ -30,3 +31,19 @@ UPDATE STUDENTS SET program_id = 1 WHERE first_name = 'John';
 UPDATE STUDENTS SET program_id = 1 WHERE first_name = 'Mary';
 UPDATE STUDENTS SET program_id = 2 WHERE first_name = 'Dianna';
 UPDATE STUDENTS SET program_id = 3 WHERE first_name = 'Daniel';
+
+INSERT INTO COURSE_ENROLLMENTS (course_id, enrolled_student_id) VALUES (1, 1);
+INSERT INTO COURSE_ENROLLMENTS (course_id, enrolled_student_id) VALUES (2, 1);
+INSERT INTO COURSE_ENROLLMENTS (course_id, enrolled_student_id) VALUES (3, 1);
+
+INSERT INTO COURSE_ENROLLMENTS (course_id, enrolled_student_id) VALUES (1, 2);
+INSERT INTO COURSE_ENROLLMENTS (course_id, enrolled_student_id) VALUES (2, 2);
+INSERT INTO COURSE_ENROLLMENTS (course_id, enrolled_student_id) VALUES (3, 2);
+
+INSERT INTO COURSE_ENROLLMENTS (course_id, enrolled_student_id) VALUES (1, 3);
+INSERT INTO COURSE_ENROLLMENTS (course_id, enrolled_student_id) VALUES (2, 3);
+INSERT INTO COURSE_ENROLLMENTS (course_id, enrolled_student_id) VALUES (3, 3);
+
+INSERT INTO COURSE_ENROLLMENTS (course_id, enrolled_student_id) VALUES (1, 4);
+INSERT INTO COURSE_ENROLLMENTS (course_id, enrolled_student_id) VALUES (2, 4);
+INSERT INTO COURSE_ENROLLMENTS (course_id, enrolled_student_id) VALUES (3, 4);

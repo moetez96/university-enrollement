@@ -50,5 +50,9 @@ public class Course {
     public void addEnrolledStudent(Student student) {
         enrolledStudents.add(student);
     }
+
+    public void removeEnrolledStudent(Student student) {
+        enrolledStudents.remove(student);
+    }
 }
 
