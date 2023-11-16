@@ -29,8 +29,8 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
-    public void addStudent(String firstName, String lastName, String email, LocalDate dateOfBirth, Program program) {
-        Student student = new Student(firstName, lastName, email, dateOfBirth, program);
+    public void addStudent(String firstName, String lastName, String email, String password, LocalDate dateOfBirth, Program program) {
+        Student student = new Student(firstName, lastName, email, password, dateOfBirth, program);
         studentRepository.save(student);
     }
 

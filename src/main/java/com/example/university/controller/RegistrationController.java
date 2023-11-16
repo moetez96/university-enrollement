@@ -36,12 +36,13 @@ public class RegistrationController {
     public String signUpNewStudent(@RequestParam("firstName") String firstName,
                                    @RequestParam("lastName") String lastName,
                                    @RequestParam("email") String email,
+                                   @RequestParam("password") String password,
                                    @RequestParam("dateOfBirth") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateOfBirth,
                                    @RequestParam("fieldOfStudy") String fieldOfStudy,
                                    @RequestParam("degree") String degreeString) {
         Degree degree = Degree.valueOf(degreeString.toUpperCase(Locale.ROOT));
         Program program = this.programService.getOrCreateProgram(fieldOfStudy, degree);
-        this.studentService.addStudent(firstName, lastName, email, dateOfBirth, program);
+        this.studentService.addStudent(firstName, lastName, email, password, dateOfBirth, program);
 
         return "redirect:/";
     }

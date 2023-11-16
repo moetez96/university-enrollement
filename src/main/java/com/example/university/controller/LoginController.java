@@ -38,7 +38,7 @@ public class LoginController {
             return "login";
         }
 
-        if (!student.get().getLastName().equalsIgnoreCase(password)) {
+        if (!student.get().getPassword().equalsIgnoreCase(password)) {
             model.addAttribute("error", true);
             model.addAttribute("error_message", "Password doesn't match");
             return "login";

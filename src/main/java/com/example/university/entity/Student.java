@@ -17,6 +17,8 @@ public class Student {
     private String lastName;
     @Column(length = 60, nullable = false, unique = true)
     private String email;
+    @Column(length = 60, nullable = false)
+    private String password;
     private LocalDate dateOfBirth;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "profile_id")
@@ -34,11 +36,13 @@ public class Student {
     public Student(String firstName,
                    String lastName,
                    String email,
+                   String password,
                    LocalDate dateOfBirth,
                    Program program) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.password = password;
         this.dateOfBirth = dateOfBirth;
         this.learnerProfile = new LearnerProfile((short) LocalDate.now().getYear());
         this.program = program;
@@ -58,6 +62,10 @@ public class Student {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public LocalDate getDateOfBirth() {
