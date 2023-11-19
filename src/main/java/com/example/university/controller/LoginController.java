@@ -1,6 +1,7 @@
 package com.example.university.controller;
 
 import com.example.university.entity.Student;
+import com.example.university.service.AuthService;
 import com.example.university.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,9 +16,12 @@ import java.util.Optional;
 public class LoginController {
 
     private final StudentService studentService;
+    private final AuthService authService;
 
-    public LoginController(StudentService studentService) {
+    @Autowired
+    public LoginController(StudentService studentService, AuthService authService) {
         this.studentService = studentService;
+        this.authService = authService;
     }
 
     @GetMapping("/login")
@@ -38,12 +42,15 @@ public class LoginController {
             return "login";
         }
 
-        if (!student.get().getPassword().equalsIgnoreCase(password)) {
+        if (!studentService.comparePassword(password, student.get().getPassword())) {
             model.addAttribute("error", true);
             model.addAttribute("error_message", "Password doesn't match");
             return "login";
         }
 
+        this.authService.authenticate(email, password);
+
         return "redirect:student?student_id=" + student.get().getId();
     }
+
 }

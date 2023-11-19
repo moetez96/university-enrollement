@@ -5,6 +5,7 @@ import com.example.university.entity.Program;
 import com.example.university.entity.Student;
 import com.example.university.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -16,9 +17,12 @@ import java.util.Set;
 public class StudentService {
 
     private final StudentRepository studentRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public StudentService(StudentRepository studentRepository) {
+    @Autowired
+    public StudentService(StudentRepository studentRepository, PasswordEncoder passwordEncoder) {
         this.studentRepository = studentRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Optional<Student> findStudentByEmail(String email) {
@@ -30,7 +34,8 @@ public class StudentService {
     }
 
     public void addStudent(String firstName, String lastName, String email, String password, LocalDate dateOfBirth, Program program) {
-        Student student = new Student(firstName, lastName, email, password, dateOfBirth, program);
+        String encodedPassword = passwordEncoder.encode(password);
+        Student student = new Student(firstName, lastName, email, encodedPassword, dateOfBirth, program);
         studentRepository.save(student);
     }
 
@@ -40,5 +45,9 @@ public class StudentService {
 
     public Set<Course> getAllStudentCourses(Student student) {
         return student.getEnrolledIn();
+    }
+
+    public boolean comparePassword(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 }

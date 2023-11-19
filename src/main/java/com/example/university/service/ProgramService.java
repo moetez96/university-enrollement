@@ -27,6 +27,7 @@ public class ProgramService {
     }
 
     public List<Program> getAllProgramsWithStudents() {
+
         Sort sortOrder = Sort.by("fieldOfStudy").ascending().and(Sort.by("degree").descending());
         return programRepository.findAll(sortOrder);
     }

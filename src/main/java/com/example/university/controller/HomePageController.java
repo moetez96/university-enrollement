@@ -8,7 +8,8 @@ import com.example.university.service.CoursesService;
 import com.example.university.service.LearnerProfileService;
 import com.example.university.service.ProgramService;
 import com.example.university.service.StudentService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,6 +37,8 @@ public class HomePageController {
 
     @GetMapping("/courses")
     public String getNumberOfStudentPerCourse(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println(authentication);
         List<Course> courses =
                 this.coursesService.getAllCourses();
         model.addAttribute("courses", courses);
