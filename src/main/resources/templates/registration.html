@@ -28,82 +28,79 @@
 
         <div class="container">
             <h2 class="pb-2 border-bottom mt-4">Student Contact Information</h2>
-                <form class="needs-validation" novalidate action="/register" method="get">
-                    <div class="row g-3">
-                        <div class="col-sm-6">
-                            <label for="firstName" class="form-label">First name</label>
-                            <input type="text" class="form-control" id="firstName" placeholder="" value="" required name="firstName">
-                            <div class="invalid-feedback">
-                                Valid first name is required.
-                            </div>
-                        </div>
-
-                        <div class="col-sm-6">
-                            <label for="lastName" class="form-label">Last name</label>
-                            <input type="text" class="form-control" id="lastName" placeholder="" value="" required name="lastName">
-                            <div class="invalid-feedback">
-                                Valid last name is required.
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" required placeholder="you@example.com" name="email">
-                            <div class="invalid-feedback">
-                                Please enter a valid email address for shipping updates.
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" required name="password">
-                            <div class="invalid-feedback">
-                                Please enter your password
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <label for="dateOfBirth" class="form-label">Date Of Birth</label>
-                            <input type="date" class="form-control" id="dateOfBirth" required name="dateOfBirth">
-                            <div class="invalid-feedback">
-                                Please choose a valid birth date
-                            </div>
-                        </div>
+            <form th:action="@{/register}" th:object="${registerForm}" method="post" class="needs-validation" novalidate>
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <label for="firstName" class="form-label">First name</label>
+                        <input type="text" th:class="${#fields.hasErrors('firstName')} ? 'form-control is-invalid' : 'form-control'"
+                               id="firstName" th:field="*{firstName}" required>
+                        <div class="col-sm-6 text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Valid first name is required.</div>
                     </div>
 
+                    <div class="col-sm-6">
+                        <label for="lastName" class="form-label">Last name</label>
+                        <input type="text" th:class="${#fields.hasErrors('lastName')} ? 'form-control is-invalid' : 'form-control'"
+                               id="lastName" th:field="*{lastName}" required>
+                        <div class="col-sm-6 text-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Valid last name is required.</div>
+                    </div>
 
-                    <h2 class="pb-2 border-bottom my-4">Program Details</h2>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <label for="fieldOfStudy" class="form-label">Field Of Study</label>
-                                <select required class="form-select form-select-lg mb-3" aria-label=".form-select-lg" id="fieldOfStudy" name="fieldOfStudy">
-                                    <option value="">Choose Your Major</option>
-                                    <option>Electrical Engineering</option>
-                                    <option>Computer Science</option>
-                                    <option>Biology</option>
-                                    <option>Physics</option>
-                                    <option>Math</option>
-                                    <option>Architecture</option>
-                                </select>
-                            </div>
+                    <div class="col-12">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" th:class="${#fields.hasErrors('email')} ? 'form-control is-invalid' : 'form-control'"
+                               id="email" th:field="*{email}" required placeholder="you@example.com">
+                        <div class="col-sm-6 text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Please enter a valid email address for shipping updates.</div>
+                    </div>
 
-                            <div class="col-sm-6">
-                                <label for="degree" class="form-label">Desired Degree</label>
-                                <select required class="form-select form-select-lg mb-3" aria-label=".form-select-lg" id="degree" name="degree">
-                                    <option value="">Choose Desired Degree</option>
-                                    <option value="ASSOCIATE">Associate</option>
-                                    <option value="BACHELOR">Bachelor</option>
-                                    <option value="MASTER">Master</option>
-                                    <option value="PHD">Phd</option>
-                                </select>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="text-center">
-                            <button class="btn btn-primary btn-lg" type="submit">Register to University</button>
-                        </div>
+                    <div class="col-12">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" th:class="${#fields.hasErrors('password')} ? 'form-control is-invalid' : 'form-control'"
+                               id="password" th:field="*{password}" required>
+                        <div class="col-sm-6 text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Please enter your password.</div>
+                    </div>
 
-                </form>
+                    <div class="col-12">
+                        <label for="dateOfBirth" class="form-label">Date Of Birth</label>
+                        <input type="date" th:class="${#fields.hasErrors('dateOfBirth')} ? 'form-control is-invalid' : 'form-control'"
+                               id="dateOfBirth" th:field="*{dateOfBirth}" required>
+                        <div class="col-sm-6 text-danger" th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}">Please choose a valid birth date.</div>
+                    </div>
+                </div>
+
+                <h2 class="pb-2 border-bottom my-4">Program Details</h2>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label for="fieldOfStudy" class="form-label">Field Of Study</label>
+                        <select th:class="${#fields.hasErrors('fieldOfStudy')} ? 'form-select form-select-lg mb-3 is-invalid' : 'form-select form-select-lg mb-3'"
+                                aria-label=".form-select-lg" id="fieldOfStudy" th:field="*{fieldOfStudy}" required>
+                            <option value="">Choose Your Major</option>
+                            <option value="Electrical Engineering">Electrical Engineering</option>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Biology">Biology</option>
+                            <option value="Physics">Physics</option>
+                            <option value="Math">Math</option>
+                            <option value="Architecture">Architecture</option>
+                        </select>
+                        <div class="col-sm-6 text-danger" th:if="${#fields.hasErrors('fieldOfStudy')}" th:errors="*{fieldOfStudy}">Please choose your major.</div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label for="degree" class="form-label">Desired Degree</label>
+                        <select th:class="${#fields.hasErrors('degree')} ? 'form-select form-select-lg mb-3 is-invalid' : 'form-select form-select-lg mb-3'" aria-label=".form-select-lg" id="degree" th:field="*{degree}" required>
+                            <option value="">Choose Desired Degree</option>
+                            <option value="ASSOCIATE">Associate</option>
+                            <option value="BACHELOR">Bachelor</option>
+                            <option value="MASTER">Master</option>
+                            <option value="PHD">Phd</option>
+                        </select>
+                        <div class="col-sm-6 text-danger" th:if="${#fields.hasErrors('degree')}" th:errors="*{degree}">Please choose your desired degree.</div>
+                    </div>
+                </div>
+
+                <br>
+                <div class="text-center">
+                    <button class="btn btn-primary btn-lg" type="submit">Register to University</button>
+                </div>
+            </form>
         </div>
     </main>
 </div>
