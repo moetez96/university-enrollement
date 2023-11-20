@@ -42,6 +42,11 @@ public class RegistrationController {
             return "registration";
         }
 
+        if (studentService.findStudentByEmail(registerForm.getEmail()).isPresent()) {
+            result.rejectValue("email", "DuplicateKey.studentForm.email", "Email address is already in use.");
+            return "registration";
+        }
+
         if (registerForm.getDateOfBirth() == null || registerForm.getDateOfBirth().isEmpty()) {
             result.rejectValue("dateOfBirth", "NotEmpty", "Date of birth is required.");
             return "registration";
