@@ -5,6 +5,7 @@ import com.example.university.entity.Student;
 import com.example.university.service.CoursesService;
 import com.example.university.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Optional;
 
 @Controller
+@PreAuthorize("isAuthenticated()")
 public class StudentController {
 
     private final StudentService studentService;
