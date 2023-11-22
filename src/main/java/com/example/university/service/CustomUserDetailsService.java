@@ -27,7 +27,7 @@ public class CustomUserDetailsService implements UserDetailsService{
         Optional<Student> student = this.studentService.findStudentByEmail(email);
 
         if (student.isPresent()) {
-            List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_User"));
+            List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
 
             return new CustomUserDetails(
                     student.get().getEmail(),

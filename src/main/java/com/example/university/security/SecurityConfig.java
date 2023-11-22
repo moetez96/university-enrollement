@@ -1,5 +1,6 @@
 package com.example.university.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -12,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -22,6 +24,9 @@ import javax.servlet.http.HttpSession;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
+
+    @Autowired
+    private AuthenticationEntryPoint authenticationEntryPoint;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -37,6 +42,8 @@ public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
                 .antMatchers("/login", "/logout", "/registration", "/courses", "/students",
                         "/scores", "/programs", "/css/**").permitAll()
                 .antMatchers("/h2/**").permitAll()
+                .and().authorizeRequests()
+                .antMatchers("/student/**").authenticated()
                 .and()
                 .logout()
                 .logoutUrl("/logout")
@@ -48,6 +55,9 @@ public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
                     System.out.println(authentication);
                     httpServletResponse.sendRedirect("/login?logout");
                 })
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPoint)
                 .and()
                 .headers().frameOptions().sameOrigin();
 
