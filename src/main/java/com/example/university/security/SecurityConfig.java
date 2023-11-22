@@ -2,6 +2,7 @@ package com.example.university.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,7 +18,7 @@ import javax.servlet.http.HttpSession;
 public class SecurityConfig {
 
     @Bean
-    public static PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
 
         return new BCryptPasswordEncoder();
     }
@@ -34,6 +35,8 @@ public class SecurityConfig {
                 .logout()
                 .logoutUrl("/logout")
                 .permitAll()
+                .and()
+                .logout()
                 .logoutSuccessHandler((httpServletRequest, httpServletResponse, authentication) -> {
                     this.logout(httpServletRequest);
                     System.out.println(authentication);
@@ -46,6 +49,7 @@ public class SecurityConfig {
     }
 
     @Bean
+    @Primary
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
 
         return configuration.getAuthenticationManager();
