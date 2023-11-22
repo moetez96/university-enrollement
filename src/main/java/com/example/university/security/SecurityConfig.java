@@ -25,9 +25,12 @@ import javax.servlet.http.HttpSession;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
-    @Autowired
-    private AuthenticationEntryPoint authenticationEntryPoint;
+    private final AuthenticationEntryPoint authenticationEntryPoint;
 
+    @Autowired
+    public SecurityConfig(AuthenticationEntryPoint authenticationEntryPoint) {
+        this.authenticationEntryPoint = authenticationEntryPoint;
+    }
     @Bean
     public PasswordEncoder passwordEncoder() {
 
@@ -57,7 +60,7 @@ public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
                 })
                 .and()
                 .exceptionHandling()
-                .authenticationEntryPoint(authenticationEntryPoint)
+                .authenticationEntryPoint(this.authenticationEntryPoint)
                 .and()
                 .headers().frameOptions().sameOrigin();
 

@@ -2,10 +2,13 @@ package com.example.university.controller;
 
 import com.example.university.entity.Course;
 import com.example.university.entity.Student;
+import com.example.university.security.CustomUserDetails;
 import com.example.university.service.CoursesService;
 import com.example.university.service.StudentService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 @Controller
@@ -29,13 +33,18 @@ public class StudentController {
     }
 
     @RequestMapping("/student")
-    public String getStudentProfile(@RequestParam("student_id") long studentId, Model model) {
+    public String getStudentProfile(@RequestParam("student_id") long studentId,
+                                    Model model, Authentication authentication) {
 
         Optional<Student> student = this.studentService.findStudentById(studentId);
 
         if (student.isEmpty()) {
             System.err.printf("Student with Id %d doesn't exist%n", studentId);
             return "redirect:/";
+        }
+
+        if (isAuthenticatedStudent(authentication, studentId)) {
+            throw new AccessDeniedException("Unauthorized access");
         }
 
         model.addAttribute("student_id", studentId);
@@ -46,13 +55,20 @@ public class StudentController {
     }
 
     @GetMapping("/student/courses")
-    public String getAllCourses(@RequestParam("student_id") long studentId, Model model) {
+    public String getAllCourses(@RequestParam("student_id") long studentId,
+                                Model model, Authentication authentication) {
 
         Optional<Student> student = this.studentService.findStudentById(studentId);
+
         if (student.isEmpty()) {
             System.err.printf("Student with Id %d doesn't exist%n", studentId);
             return "redirect:/";
         }
+
+        if (isAuthenticatedStudent(authentication, studentId)) {
+            throw new AccessDeniedException("Unauthorized access");
+        }
+
 
         model.addAttribute("student_id", studentId);
         model.addAttribute("all_courses", this.coursesService.getAllCourses());
@@ -66,7 +82,7 @@ public class StudentController {
     @PostMapping("/student/enroll")
     public String enrollInCourse(@RequestParam("student_id") Long studentId,
                                  @RequestParam("course_id") Long courseId,
-                                 Model model) {
+                                 Model model, Authentication authentication) {
 
         Optional<Student> student = this.studentService.findStudentById(studentId);
 
@@ -74,6 +90,10 @@ public class StudentController {
             System.err.printf("Trying to enroll a student with Id %d that doesn't exist%n",
                     studentId);
             return "redirect:/";
+        }
+
+        if (isAuthenticatedStudent(authentication, studentId)) {
+            throw new AccessDeniedException("Unauthorized access");
         }
 
         Optional<Course> course = coursesService.findCourse(courseId);
@@ -97,13 +117,17 @@ public class StudentController {
     @PostMapping("/student/leave_course")
     public String leaveCourse(@RequestParam("student_id") Long studentId,
                               @RequestParam("course_id") Long courseId,
-                              Model model) {
+                              Model model, Authentication authentication) {
         Optional<Student> student = this.studentService.findStudentById(studentId);
 
         if (student.isEmpty()) {
             System.err.printf("Trying to un-enroll a student with Id %d that doesn't exist%n",
                     studentId);
             return "redirect:/";
+        }
+
+        if (isAuthenticatedStudent(authentication, studentId)) {
+            throw new AccessDeniedException("Unauthorized access");
         }
 
         Optional<Course> course = coursesService.findCourse(courseId);
@@ -123,6 +147,13 @@ public class StudentController {
 
         showAllCourses(model);
         return "student_view";
+    }
+
+    private boolean isAuthenticatedStudent(Authentication authentication, long studentId) {
+
+        long authenticatedUserId = ((CustomUserDetails) authentication.getPrincipal()).getId();
+
+        return authenticatedUserId != studentId;
     }
 
     private void showStudentProfile(Model model) {
