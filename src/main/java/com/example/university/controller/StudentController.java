@@ -5,6 +5,7 @@ import com.example.university.entity.Student;
 import com.example.university.security.CustomUserDetails;
 import com.example.university.service.CoursesService;
 import com.example.university.service.StudentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,6 +27,7 @@ public class StudentController {
     private final StudentService studentService;
     private final CoursesService coursesService;
 
+    @Autowired
     public StudentController(StudentService studentService,
                               CoursesService coursesService) {
         this.studentService = studentService;
