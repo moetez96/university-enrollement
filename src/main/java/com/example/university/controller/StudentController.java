@@ -46,7 +46,7 @@ public class StudentController {
         }
 
         if (isAuthenticatedStudent(authentication, studentId)) {
-            throw new AccessDeniedException("Unauthorized access");
+            return "access-denied";
         }
 
         model.addAttribute("student_id", studentId);
@@ -68,7 +68,7 @@ public class StudentController {
         }
 
         if (isAuthenticatedStudent(authentication, studentId)) {
-            throw new AccessDeniedException("Unauthorized access");
+            return "access-denied";
         }
 
 
@@ -95,7 +95,7 @@ public class StudentController {
         }
 
         if (isAuthenticatedStudent(authentication, studentId)) {
-            throw new AccessDeniedException("Unauthorized access");
+            return "access-denied";
         }
 
         Optional<Course> course = coursesService.findCourse(courseId);
@@ -129,7 +129,7 @@ public class StudentController {
         }
 
         if (isAuthenticatedStudent(authentication, studentId)) {
-            throw new AccessDeniedException("Unauthorized access");
+            return "access-denied";
         }
 
         Optional<Course> course = coursesService.findCourse(courseId);
