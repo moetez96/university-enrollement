@@ -2,22 +2,20 @@ package com.example.university.controller;
 
 import com.example.university.entity.Course;
 import com.example.university.entity.Student;
+import com.example.university.forms.RegisterForm;
+import com.example.university.forms.UpdateForm;
 import com.example.university.security.CustomUserDetails;
 import com.example.university.service.CoursesService;
 import com.example.university.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
@@ -151,6 +149,53 @@ public class StudentController {
         return "student_view";
     }
 
+    @GetMapping("/student/update/{student_id}")
+    public String updateStudentInformation(@PathVariable("student_id") long studentId,
+                                           Model model,
+                                           Authentication authentication) {
+        model.addAttribute("updateForm", new UpdateForm());
+
+        Optional<Student> student = studentService.findStudentById(studentId);
+
+        if (student.isEmpty()) {
+            System.err.printf("Student with Id %d doesn't exist%n", studentId);
+            return "update_student";
+        }
+
+        model.addAttribute("student", student.get());
+
+        return "update_student";
+    }
+
+
+    @PostMapping("/student/update/{student_id}")
+    public String processUpdateStudentInformation(@PathVariable("student_id") long studentId,
+                                                  @Valid @ModelAttribute("updateForm") UpdateForm updateForm,
+                                                  BindingResult result,
+                                                  Model model,
+                                                  Authentication authentication) {
+
+        Optional<Student> student = studentService.findStudentById(studentId);
+
+        if (result.hasErrors()) {
+            model.addAttribute("updateForm", updateForm);
+            return "update_student";
+        }
+
+
+        if (student.isEmpty()) {
+            System.err.printf("Student with Id %d doesn't exist%n", studentId);
+            return "redirect:/";
+        }
+
+        studentService.updateStudentInformation(student.get(),
+                updateForm.getFirstName(),
+                updateForm.getLastName(),
+                updateForm.getEmail());
+
+        return "redirect:/student?student_id=" + studentId;
+    }
+
     private boolean isAuthenticatedStudent(Authentication authentication, long studentId) {
 
         long authenticatedUserId = ((CustomUserDetails) authentication.getPrincipal()).getId();
@@ -161,9 +206,9 @@ public class StudentController {
     private void showStudentProfile(Model model) {
         model.addAttribute("show_courses", false);
     }
+
     private void showAllCourses(Model model) {
         model.addAttribute("show_courses", true);
     }
-
 
 }

@@ -53,7 +53,7 @@
                 <dd class="col-sm-9" th:text="${student.learnerProfile.gpa}"></dd>
             </dl>
             <a class="btn btn-primary" th:href="@{/student/courses#courses-available(student_id=${student_id})}">Enroll in courses</a>
-            <a class="btn btn-primary" th:href="@{/student/courses#courses-enrolled(student_id=${student_id})}">View enrolled courses</a>
+            <a class="btn btn-secondary" th:href="@{/student/update/{student_id}(student_id=${student_id})}">Update Information</a>
         </div>
 
         <!-- COURSES -->

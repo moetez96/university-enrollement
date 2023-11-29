@@ -47,6 +47,13 @@ public class StudentService {
         return student.getEnrolledIn();
     }
 
+    public void updateStudentInformation(Student student, String firstName, String lastName, String email) {
+        student.setFirstName(firstName);
+        student.setLastName(lastName);
+        student.setEmail(email);
+        studentRepository.save(student);
+    }
+
     public boolean comparePassword(String rawPassword, String encodedPassword) {
         return passwordEncoder.matches(rawPassword, encodedPassword);
     }

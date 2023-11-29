@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head">
+    <link href="/css/student_view.css" rel="stylesheet">
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+<div class="container">
+    <h2 class="pb-2 border-bottom mt-4">Update Student Information</h2>
+    <form th:action="@{/student/update/{student_id}(student_id=${#authentication.principal.id})}" th:object="${updateForm}" method="post" class="needs-validation" novalidate>
+        <input type="hidden" name="student_id" th:value="${student.id}" />
+        <div class="mb-3">
+            <label for="firstName" class="form-label">First Name</label>
+            <input type="text" th:class="${#fields.hasErrors('firstName')} ? 'form-control is-invalid' : 'form-control'" id="firstName"
+                   name="firstName" th:value="${student.firstName}" th:field="*{firstName}" required />
+            <div class="col-sm-6 text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Valid first name is required.</div>
+        </div>
+        <div class="mb-3">
+            <label for="lastName" class="form-label">Last Name</label>
+            <input type="text" class="form-control" id="lastName" name="lastName" th:value="${student.lastName}" th:field="*{lastName}" required />
+            <div class="col-sm-6 text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{lastName}">Valid last name is required.</div>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" th:value="${student.email}" th:field="*{email}" required />
+            <div class="col-sm-6 text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Please enter a valid email address for shipping updates.</div>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Information</button>
+    </form>
+</div>
+<footer class="my-5 pt-5 text-muted text-center text-small mt-auto">
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
