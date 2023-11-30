@@ -26,6 +26,7 @@
             <div class="col-sm-6 text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Please enter a valid email address for shipping updates.</div>
         </div>
         <button type="submit" class="btn btn-primary">Update Information</button>
+        <a class="btn btn-secondary" th:href="@{/student/change_password/{student_id}(student_id=${student_id})}">Change password</a>
     </form>
 </div>
 <footer class="my-5 pt-5 text-muted text-center text-small mt-auto">

@@ -2,6 +2,7 @@ package com.example.university.controller;
 
 import com.example.university.entity.Course;
 import com.example.university.entity.Student;
+import com.example.university.forms.PasswordForm;
 import com.example.university.forms.UpdateForm;
 import com.example.university.security.CustomUserDetails;
 import com.example.university.service.CoursesService;
@@ -201,6 +202,61 @@ public class StudentController {
                 updateForm.getFirstName(),
                 updateForm.getLastName(),
                 updateForm.getEmail());
+
+        return "redirect:/student?student_id=" + studentId;
+    }
+
+    @GetMapping("/student/change_password/{student_id}")
+    public String changePassword(@PathVariable("student_id") long studentId,
+                                           Model model,
+                                           Authentication authentication) {
+
+        PasswordForm passwordForm = new PasswordForm();
+
+        Optional<Student> student = studentService.findStudentById(studentId);
+
+        if (isAuthenticatedStudent(authentication, studentId) || student.isEmpty()) {
+            return "access-denied";
+        }
+
+        model.addAttribute("passwordForm", passwordForm);
+        model.addAttribute("student", student.get());
+
+        return "change_password";
+    }
+
+    @PostMapping("/student/change_password/{student_id}")
+    public String processChangePassword(@PathVariable("student_id") long studentId,
+                                                  @Valid @ModelAttribute("passwordForm") PasswordForm passwordForm,
+                                                  BindingResult result,
+                                                  Model model,
+                                                  Authentication authentication) {
+
+        Optional<Student> student = studentService.findStudentById(studentId);
+
+        if (isAuthenticatedStudent(authentication, studentId) || student.isEmpty()) {
+            return "access-denied";
+        }
+
+        model.addAttribute("student", student.get());
+
+        if (result.hasErrors()) {
+            model.addAttribute("passwordForm", passwordForm);
+            return "change_password";
+        }
+
+        if (!this.studentService.comparePassword(passwordForm.getOldPassword(), student.get().getPassword())) {
+            result.rejectValue("oldPassword", "Mismatch.passwordForm.oldPassword", "Password not correct");
+            return "change_password";
+        }
+
+        if (!passwordForm.getNewPassword().equals(passwordForm.getConfirmPassword())) {
+            result.rejectValue("confirmPassword", "Mismatch.passwordForm.confirmPassword", "Password mismatch");
+            return "change_password";
+        }
+
+        studentService.changePassword(student.get(),
+                passwordForm.getNewPassword());
 
         return "redirect:/student?student_id=" + studentId;
     }

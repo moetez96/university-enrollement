@@ -65,6 +65,12 @@ public class StudentService {
         studentRepository.save(student);
     }
 
+    public void changePassword(Student student, String password) {
+        String encodedPassword = passwordEncoder.encode(password);
+        student.setPassword(encodedPassword);
+        studentRepository.save(student);
+    }
+
     public boolean comparePassword(String rawPassword, String encodedPassword) {
         return passwordEncoder.matches(rawPassword, encodedPassword);
     }
