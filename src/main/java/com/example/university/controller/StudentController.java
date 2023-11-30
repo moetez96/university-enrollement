@@ -2,7 +2,6 @@ package com.example.university.controller;
 
 import com.example.university.entity.Course;
 import com.example.university.entity.Student;
-import com.example.university.forms.RegisterForm;
 import com.example.university.forms.UpdateForm;
 import com.example.university.security.CustomUserDetails;
 import com.example.university.service.CoursesService;
@@ -153,15 +152,20 @@ public class StudentController {
     public String updateStudentInformation(@PathVariable("student_id") long studentId,
                                            Model model,
                                            Authentication authentication) {
-        model.addAttribute("updateForm", new UpdateForm());
+
+        UpdateForm updateForm = new UpdateForm();
 
         Optional<Student> student = studentService.findStudentById(studentId);
 
-        if (student.isEmpty()) {
-            System.err.printf("Student with Id %d doesn't exist%n", studentId);
-            return "update_student";
+        if (isAuthenticatedStudent(authentication, studentId) || student.isEmpty()) {
+            return "access-denied";
         }
 
+        updateForm.setEmail(student.get().getEmail());
+        updateForm.setFirstName(student.get().getFirstName());
+        updateForm.setLastName(student.get().getLastName());
+
+        model.addAttribute("updateForm", updateForm);
         model.addAttribute("student", student.get());
 
         return "update_student";
@@ -177,15 +181,20 @@ public class StudentController {
 
         Optional<Student> student = studentService.findStudentById(studentId);
 
+        if (isAuthenticatedStudent(authentication, studentId) || student.isEmpty()) {
+            return "access-denied";
+        }
+
+        model.addAttribute("student", student.get());
+
         if (result.hasErrors()) {
             model.addAttribute("updateForm", updateForm);
             return "update_student";
         }
 
-
-        if (student.isEmpty()) {
-            System.err.printf("Student with Id %d doesn't exist%n", studentId);
-            return "redirect:/";
+        if (this.studentService.emailExistsForOtherStudents(updateForm.getEmail(), studentId)) {
+            result.rejectValue("email", "DuplicateKey.studentForm.email", "Email address is already in use.");
+            return "update_student";
         }
 
         studentService.updateStudentInformation(student.get(),

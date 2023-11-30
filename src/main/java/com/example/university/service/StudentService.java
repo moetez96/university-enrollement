@@ -47,6 +47,17 @@ public class StudentService {
         return student.getEnrolledIn();
     }
 
+    public boolean emailExistsForOtherStudents(String email, long studentId) {
+
+        Optional<Student> foundStudent = studentRepository.findByEmail(email);
+
+        if (foundStudent.isEmpty()) {
+            return false;
+        }
+
+        return foundStudent.get().getId() != studentId;
+    }
+
     public void updateStudentInformation(Student student, String firstName, String lastName, String email) {
         student.setFirstName(firstName);
         student.setLastName(lastName);
